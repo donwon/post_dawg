@@ -1,14 +1,34 @@
 class PostsController < ApplicationController
 
-def index
+  def index
+    @posts = Post.all
+  end
 
-end
+  def new
+   @post = Post.new
+  end
 
-def new
+  def create
+    @post = Post.new post_params
+    if @post.save
+      redirect_to @post, notice: "Post created successfully, now you are going to the show page"
+    else
+      render :new
+    end
+  end
 
-end
+  def show
+    @post = Post.find params[:id]
+  end
 
 
 
 
+
+
+
+private
+  def post_params
+    params.require(:post).permit([:title, :link, :body, :category_id, :address, :image])
+  end
 end
